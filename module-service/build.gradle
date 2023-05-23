@@ -1,0 +1,22 @@
+plugins {
+    id 'java'
+}
+
+group = 'com.mjc.school.service'
+version = '1.0-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation project(path: ':module-repository')
+    testImplementation platform("org.junit:junit-bom:$junitBomVersion")
+    testImplementation 'org.junit.jupiter:junit-jupiter'
+    implementation "org.mapstruct:mapstruct:$mapstructVersion"
+    annotationProcessor "org.mapstruct:mapstruct-processor:$mapstructVersion"
+}
+
+test {
+    useJUnitPlatform()
+}

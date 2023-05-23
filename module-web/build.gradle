@@ -1,0 +1,25 @@
+plugins {
+    id 'java'
+}
+
+group = 'com.mjc.school.controller'
+version = '1.0-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation project(path: ':module-service')
+    implementation "javax.xml.bind:jaxb-api:$jaxbApiVersion"
+    testImplementation platform("org.junit:junit-bom:$junitBomVersion")
+    testImplementation 'org.junit.jupiter:junit-jupiter'
+    testImplementation 'org.testng:testng:7.1.0'
+
+
+
+}
+
+test {
+    useJUnitPlatform()
+}

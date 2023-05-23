@@ -1,0 +1,72 @@
+plugins {
+    id 'java'
+}
+
+group = 'com.mjc.school'
+version = '1.0-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+}
+subprojects {
+    apply plugin: 'java'
+    apply plugin: 'jacoco'
+    group = 'com.mjc.school'
+
+    sourceCompatibility = javaVersion
+    targetCompatibility = javaVersion
+
+    repositories {
+        mavenCentral()
+    }
+
+    dependencies {
+        implementation "org.springframework.boot:spring-boot-starter-web:$springBootStarterWebVersion"
+        implementation "org.springframework.boot:spring-boot-starter-data-jpa:$springBootStarterDataJpaVersion"
+        implementation "org.postgresql:postgresql:$postgresqlVersion"
+        implementation "com.tngtech.archunit:archunit:$archunitVersion"
+        implementation group: 'io.springfox', name: 'springfox-swagger2', version: "$springfoxVersion"
+        implementation group: 'io.springfox', name: 'springfox-boot-starter', version: "$springfoxVersion"
+        implementation "javax.validation:validation-api:$javaxValidationApiVersion"
+
+        testImplementation "io.rest-assured:rest-assured:$restAssuredVersion"
+        testImplementation "io.rest-assured:json-path:$restAssuredVersion"
+        testImplementation "io.rest-assured:json-schema-validator:$restAssuredVersion"
+        testImplementation "com.tngtech.archunit:archunit-junit5:$archunitVersion"
+        testImplementation "org.assertj:assertj-core:$assertJVersion"
+
+        compileOnly "org.projectlombok:lombok:$lombokVersion"
+        annotationProcessor "org.projectlombok:lombok:$lombokVersion"
+
+        testCompileOnly "org.projectlombok:lombok:$lombokVersion"
+        testAnnotationProcessor "org.projectlombok:lombok:$lombokVersion"
+
+        testImplementation "org.springframework.boot:spring-boot-starter-test:$springBootStarterDataJpaVersion"
+
+
+
+
+    }
+    test {
+        useJUnitPlatform()
+    }
+}
+
+test {
+    useJUnitPlatform()
+}
+
+
+tasks.register('repack', Jar) {
+    dependsOn ':module-web:build'
+    if (findProject(':module-web') != null) {
+        entryCompression = ZipEntryCompression.STORED
+        def buildJar = zipTree("${project(':module-web').buildDir}/libs/module-web.jar")
+        from(buildJar) { into('/') }
+        manifest {
+            attributes(
+                    'Main-Class': 'com.mjc.school.Application'
+            )
+        }
+    }
+}

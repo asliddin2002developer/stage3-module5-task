@@ -1,0 +1,20 @@
+plugins {
+    id 'java'
+}
+
+group = 'com.mjc.school.repository'
+version = '1.0-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation "javax.validation:validation-api:$javaxValidationVersion"
+    testImplementation platform("org.junit:junit-bom:$junitBomVersion")
+    testImplementation 'org.junit.jupiter:junit-jupiter'
+}
+
+test {
+    useJUnitPlatform()
+}
