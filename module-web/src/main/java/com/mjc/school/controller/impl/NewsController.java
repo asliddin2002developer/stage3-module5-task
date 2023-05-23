@@ -87,7 +87,7 @@ public class NewsController implements BaseController<NewsDTORequest, NewsDTORes
         return new ResponseEntity<>(newsDTOResponse, HttpStatus.CREATED);
     }
 
-    @PutMapping("/{id}")
+    @PatchMapping("/{id}")
     @ApiOperation(value = "Update news by id", response = ResponseEntity.class)
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Successfully updated news"),
@@ -126,7 +126,7 @@ public class NewsController implements BaseController<NewsDTORequest, NewsDTORes
     @GetMapping("/search")
     @ApiOperation(value = "Search news by title, author, content, tagIds, tagNames. Sort news by page, size, sortBy")
     @ApiResponses(value = {
-            @ApiResponse(code = 204, message = "Successfully deleted author"),
+            @ApiResponse(code = 200, message = "Successfully retrieved news"),
             @ApiResponse(code = 401, message = "You are not authorized to view the resource"),
             @ApiResponse(code = 403, message = "Accessing the resource you were trying to reach is forbidden"),
             @ApiResponse(code = 404, message = "The resource you were trying to reach is not found"),

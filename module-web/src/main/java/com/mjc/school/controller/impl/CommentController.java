@@ -98,7 +98,7 @@ public class CommentController implements BaseController<CommentDTORequest, Comm
     }
 
     @Override
-    @PutMapping("/{id}")
+    @PatchMapping("/{id}")
     @ApiOperation(value = "Update comment by id", response = ResponseEntity.class)
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Successfully updated comment"),

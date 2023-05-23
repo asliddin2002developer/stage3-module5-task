@@ -88,7 +88,7 @@ public class TagController implements BaseController<TagDTORequest, TagDTORespon
     }
 
     @Override
-    @PutMapping("/{id}")
+    @PatchMapping("/{id}")
     @ApiOperation(value = "Update tag by id", response = ResponseEntity.class)
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Successfully updated tag"),
