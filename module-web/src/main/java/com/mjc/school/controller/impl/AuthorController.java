@@ -1,9 +1,9 @@
 package com.mjc.school.controller.impl;
 
 import com.mjc.school.controller.BaseController;
-import com.mjc.school.service.AuthorService;
 import com.mjc.school.service.dto.AuthorDTORequest;
 import com.mjc.school.service.dto.AuthorDTOResponse;
+import com.mjc.school.service.impl.AuthorService;
 import com.mjc.school.service.view.View;
 import io.swagger.annotations.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -107,7 +107,7 @@ public class AuthorController implements BaseController<AuthorDTORequest, Author
             @ApiParam(value = "JSON object that contains author id you want to update and new name to update)")
             @RequestBody AuthorDTORequest updateRequest)
     {
-        var authorDTOResponse = model.update(updateRequest);
+        var authorDTOResponse = model.update(id, updateRequest);
         view.display(authorDTOResponse);
         return new ResponseEntity<>(authorDTOResponse, HttpStatus.OK);
     }

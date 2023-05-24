@@ -1,8 +1,9 @@
 package com.mjc.school.service.impl;
 
-import com.mjc.school.repository.CommentRepository;
+import com.mjc.school.repository.impl.CommentRepository;
+import com.mjc.school.repository.impl.NewsRepository;
 import com.mjc.school.repository.model.impl.CommentModel;
-import com.mjc.school.service.CommentService;
+import com.mjc.school.service.BaseService;
 import com.mjc.school.service.dto.CommentDTORequest;
 import com.mjc.school.service.dto.CommentDTOResponse;
 import com.mjc.school.service.exception.NotFoundException;
@@ -17,14 +18,17 @@ import java.util.Optional;
 import static com.mjc.school.service.enums.ConstantValidators.ENTITY_NOT_FOUND_MESSAGE;
 
 @Service
-public class CommentServiceImpl implements CommentService {
+public class CommentService implements BaseService<CommentDTORequest, CommentDTOResponse, Long> {
     private final CommentRepository commentRepository;
+    private final NewsRepository newsRepository;
     private final CommentMapper mapper;
     private final String entityName = "Comment";
+    private final String newsEntity = "News";
 
     @Autowired
-    public CommentServiceImpl(CommentRepository commentRepository) {
+    public CommentService(CommentRepository commentRepository, NewsRepository newsRepository) {
         this.commentRepository = commentRepository;
+        this.newsRepository = newsRepository;
         this.mapper = Mappers.getMapper(CommentMapper.class);
     }
 
@@ -49,13 +53,21 @@ public class CommentServiceImpl implements CommentService {
 
     @Override
     public CommentDTOResponse create(CommentDTORequest createRequest) {
+        if (!newsRepository.existById(createRequest.getNewsId())){
+            throw new NotFoundException(
+                    String.format(
+                        ENTITY_NOT_FOUND_MESSAGE.getContent(), newsEntity, createRequest.getNewsId()
+            ));
+        }
+
         var model = mapper.dtoToModel(createRequest);
+        model.setNews(newsRepository.getReference(createRequest.getNewsId()));
         var created = commentRepository.create(model);
         return mapper.modelToDto(created);
     }
 
     @Override
-    public CommentDTOResponse update(CommentDTORequest updateRequest) {
+    public CommentDTOResponse update(Long id, CommentDTORequest updateRequest) {
         var model = mapper.dtoToModel(updateRequest);
         var updated = commentRepository.update(model);
         return mapper.modelToDto(updated);
@@ -69,8 +81,8 @@ public class CommentServiceImpl implements CommentService {
     @Override
     public CommentDTOResponse getReference(Long id) {
         var reference = commentRepository.getReference(id);
-        if (reference.isPresent()){
-            return mapper.modelToDto(reference.get());
+        if (reference != null){
+            return mapper.modelToDto(reference);
         }
         throw new NotFoundException(
                 String.format(
@@ -79,7 +91,6 @@ public class CommentServiceImpl implements CommentService {
         );
     }
 
-    @Override
     public List<CommentDTOResponse> readByNewsId(Long id){
         List<CommentModel> commentssByNewsId = commentRepository.readByNewsId(id);
         return mapper.modelListToDtoList(commentssByNewsId);

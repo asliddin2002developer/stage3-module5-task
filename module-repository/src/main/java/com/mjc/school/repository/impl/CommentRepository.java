@@ -1,8 +1,7 @@
 package com.mjc.school.repository.impl;
 
-import com.mjc.school.repository.TagRepository;
+import com.mjc.school.repository.model.impl.CommentModel;
 import com.mjc.school.repository.model.impl.NewsModel;
-import com.mjc.school.repository.model.impl.TagModel;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.stereotype.Repository;
@@ -17,19 +16,19 @@ import java.util.List;
 @Getter
 @Setter
 @Repository
-public class TagRepositoryImpl extends AbstractDBRepository<TagModel, Long> implements TagRepository {
-    protected TagRepositoryImpl(EntityManagerFactory entityManagerFactory) {
+public class CommentRepository extends AbstractDBRepository<CommentModel, Long> {
+
+    protected CommentRepository(EntityManagerFactory entityManagerFactory) {
         super(entityManagerFactory);
     }
 
-    @Override
-    public List<TagModel> readByNewsId(Long newsId) {
+    public List<CommentModel> readByNewsId(Long newsId) {
         CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
-        CriteriaQuery<TagModel> criteriaQuery = criteriaBuilder.createQuery(TagModel.class);
+        CriteriaQuery<CommentModel> criteriaQuery = criteriaBuilder.createQuery(CommentModel.class);
 
-        Root<TagModel> root = criteriaQuery.from(TagModel.class);
+        Root<CommentModel> root = criteriaQuery.from(CommentModel.class);
 
-        Join<TagModel, NewsModel> news = root.join("news");
+        Join<CommentModel, NewsModel> news = root.join("news");
 
         criteriaQuery.where(
                 criteriaBuilder.equal(news.get("id"), newsId)

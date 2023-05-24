@@ -1,8 +1,8 @@
 package com.mjc.school.service.impl;
 
-import com.mjc.school.repository.AuthorRepository;
+import com.mjc.school.repository.impl.AuthorRepository;
 import com.mjc.school.repository.model.impl.AuthorModel;
-import com.mjc.school.service.AuthorService;
+import com.mjc.school.service.BaseService;
 import com.mjc.school.service.dto.AuthorDTORequest;
 import com.mjc.school.service.dto.AuthorDTOResponse;
 import com.mjc.school.service.exception.NotFoundException;
@@ -10,6 +10,7 @@ import com.mjc.school.service.mapper.AuthorMapper;
 import org.mapstruct.factory.Mappers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
@@ -17,13 +18,13 @@ import java.util.Optional;
 import static com.mjc.school.service.enums.ConstantValidators.ENTITY_NOT_FOUND_MESSAGE;
 
 @Service
-public class AuthorServiceImpl implements AuthorService {
+public class AuthorService implements BaseService<AuthorDTORequest, AuthorDTOResponse, Long> {
         private final AuthorRepository authorRepository;
         private final AuthorMapper mapper;
         private final String entityName = "Author";
 
         @Autowired
-        public AuthorServiceImpl(AuthorRepository authorRepository){
+        public AuthorService(AuthorRepository authorRepository){
             this.authorRepository = authorRepository;
             this.mapper = Mappers.getMapper(AuthorMapper.class);
         }
@@ -48,17 +49,20 @@ public class AuthorServiceImpl implements AuthorService {
     }
 
     @Override
+    @Transactional
     public AuthorDTOResponse create(AuthorDTORequest createRequest) {
-        AuthorModel model = new AuthorModel();
-        model.setName(createRequest.getName());
-        var created = authorRepository.create(model);
-        return mapper.modelToDto(created);
+        try {
+            AuthorModel model = mapper.dtoToModel(createRequest);
+            var created = authorRepository.create(model);
+            return mapper.modelToDto(created);
+        }catch (RuntimeException e){
+            throw e;
+        }
 
     }
 
     @Override
-    public AuthorDTOResponse update(AuthorDTORequest updateRequest) {
-        long id = updateRequest.getId();
+    public AuthorDTOResponse update(Long id, AuthorDTORequest updateRequest) {
         Optional<AuthorModel> authorModel = authorRepository.readById(id);
         if (authorModel.isPresent()){
             authorModel.get().setName(updateRequest.getName());
@@ -99,7 +103,6 @@ public class AuthorServiceImpl implements AuthorService {
     }
 
 
-    @Override
     public AuthorDTOResponse readByNewsId(Long id) {
         Optional<AuthorModel> authorModel = authorRepository.readByNewsId(id);
         return mapper.modelToDto(authorModel.get());

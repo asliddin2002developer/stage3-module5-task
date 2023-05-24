@@ -21,6 +21,7 @@ public abstract class NewsMapper {
     public abstract NewsDTOResponse modelToDto(NewsModel request);
 
     @Mappings({
+            @Mapping(target = "id", ignore = true),
             @Mapping(target = "createDate", ignore = true),
             @Mapping(target = "lastUpdateDate", ignore = true),
             @Mapping(target = "tags", ignore = true),

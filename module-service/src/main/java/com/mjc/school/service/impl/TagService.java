@@ -1,8 +1,8 @@
 package com.mjc.school.service.impl;
 
-import com.mjc.school.repository.TagRepository;
-import com.mjc.school.repository.impl.TagRepositoryImpl;
+import com.mjc.school.repository.impl.TagRepository;
 import com.mjc.school.repository.model.impl.TagModel;
+import com.mjc.school.service.BaseService;
 import com.mjc.school.service.dto.TagDTORequest;
 import com.mjc.school.service.dto.TagDTOResponse;
 import com.mjc.school.service.exception.NotFoundException;
@@ -18,13 +18,13 @@ import java.util.stream.Collectors;
 import static com.mjc.school.service.enums.ConstantValidators.ENTITY_NOT_FOUND_MESSAGE;
 
 @Service
-public class TagServiceImpl implements com.mjc.school.service.TagService {
+public class TagService implements BaseService<TagDTORequest, TagDTOResponse, Long> {
     private final TagRepository tagRepository;
     private final TagMapper mapper;
     private final String entityName = "Tag";
 
     @Autowired
-    public TagServiceImpl(TagRepositoryImpl tagRepository) {
+    public TagService(TagRepository tagRepository) {
         this.tagRepository = tagRepository;
         this.mapper = Mappers.getMapper(TagMapper.class);
     }
@@ -58,8 +58,7 @@ public class TagServiceImpl implements com.mjc.school.service.TagService {
     }
 
     @Override
-    public TagDTOResponse update(TagDTORequest updateRequest) {
-        Long id = updateRequest.getId();
+    public TagDTOResponse update(Long id, TagDTORequest updateRequest) {
         Optional<TagModel> tagModel = tagRepository.readById(id);
         if (tagModel.isPresent()){
             tagModel.get().setName(updateRequest.getName());
@@ -88,8 +87,8 @@ public class TagServiceImpl implements com.mjc.school.service.TagService {
     @Override
     public TagDTOResponse getReference(Long id) {
         var reference = tagRepository.getReference(id);
-        if (reference.isPresent()){
-            return mapper.modelToDto(reference.get());
+        if (reference != null){
+            return mapper.modelToDto(reference);
         }
         throw new NotFoundException(
                 String.format(
@@ -98,8 +97,6 @@ public class TagServiceImpl implements com.mjc.school.service.TagService {
         );
     }
 
-
-    @Override
     public List<TagDTOResponse> readByNewsId(Long id){
         List<TagModel> tags = tagRepository.readByNewsId(id);
         return tags.stream()

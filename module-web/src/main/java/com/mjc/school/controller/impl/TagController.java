@@ -1,9 +1,9 @@
 package com.mjc.school.controller.impl;
 
 import com.mjc.school.controller.BaseController;
-import com.mjc.school.service.TagService;
 import com.mjc.school.service.dto.TagDTORequest;
 import com.mjc.school.service.dto.TagDTOResponse;
+import com.mjc.school.service.impl.TagService;
 import com.mjc.school.service.view.View;
 import io.swagger.annotations.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -103,7 +103,7 @@ public class TagController implements BaseController<TagDTORequest, TagDTORespon
             @ApiParam(value = "JSON object than contains tag id and updated name")
             @RequestBody TagDTORequest updateRequest)
     {
-        var tagDTOResponse = model.update(updateRequest);
+        var tagDTOResponse = model.update(id, updateRequest);
         view.display(tagDTOResponse);
         return new ResponseEntity<>(tagDTOResponse, HttpStatus.OK);
     }

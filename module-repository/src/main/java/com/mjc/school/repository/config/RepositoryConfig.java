@@ -8,6 +8,6 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 @Configuration
 @EnableTransactionManagement
 @EnableJpaAuditing
-@EntityScan(basePackages = "com.mjc.school.repository.model")
+@EntityScan(basePackages = "com.mjc.school.repository.model.impl")
 public class RepositoryConfig {
 }

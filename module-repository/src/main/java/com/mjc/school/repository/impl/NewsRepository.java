@@ -1,6 +1,5 @@
 package com.mjc.school.repository.impl;
 
-import com.mjc.school.repository.NewsRepository;
 import com.mjc.school.repository.model.impl.AuthorModel;
 import com.mjc.school.repository.model.impl.NewsModel;
 import com.mjc.school.repository.model.impl.TagModel;
@@ -13,13 +12,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Repository
-public class NewsRepositoryImpl extends AbstractDBRepository<NewsModel, Long> implements NewsRepository {
+public class NewsRepository extends AbstractDBRepository<NewsModel, Long> {
 
-    protected NewsRepositoryImpl(EntityManagerFactory entityManagerFactory) {
+    protected NewsRepository(EntityManagerFactory entityManagerFactory) {
         super(entityManagerFactory);
     }
 
-    @Override
     public List<NewsModel> readByQueryParams(NewsSearchParams params) {
         CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
         CriteriaQuery<NewsModel> criteriaQuery = criteriaBuilder.createQuery(NewsModel.class);

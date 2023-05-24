@@ -1,12 +1,12 @@
 package com.mjc.school.service.impl;
 
-import com.mjc.school.repository.AuthorRepository;
-import com.mjc.school.repository.NewsRepository;
-import com.mjc.school.repository.TagRepository;
+import com.mjc.school.repository.impl.AuthorRepository;
+import com.mjc.school.repository.impl.NewsRepository;
+import com.mjc.school.repository.impl.TagRepository;
 import com.mjc.school.repository.model.impl.AuthorModel;
 import com.mjc.school.repository.model.impl.NewsModel;
 import com.mjc.school.repository.model.impl.TagModel;
-import com.mjc.school.service.NewsService;
+import com.mjc.school.service.BaseService;
 import com.mjc.school.service.dto.NewsDTORequest;
 import com.mjc.school.service.dto.NewsDTOResponse;
 import com.mjc.school.service.dto.NewsParamsRequest;
@@ -25,7 +25,7 @@ import java.util.stream.Collectors;
 import static com.mjc.school.service.enums.ConstantValidators.ENTITY_NOT_FOUND_MESSAGE;
 
 @Service
-public class NewsServiceImpl implements NewsService {
+public class NewsService implements BaseService<NewsDTORequest, NewsDTOResponse, Long> {
 
     private final NewsRepository newsRepository;
     private final TagRepository tagRepository;
@@ -36,9 +36,9 @@ public class NewsServiceImpl implements NewsService {
     private final String authorEntity = "Author";
 
     @Autowired
-    public NewsServiceImpl(NewsRepository newsRepository,
-                           TagRepository tagRepositoryImpl,
-                           AuthorRepository authorRepository){
+    public NewsService(NewsRepository newsRepository,
+                       TagRepository tagRepositoryImpl,
+                       AuthorRepository authorRepository){
         this.newsRepository = newsRepository;
         this.tagRepository = tagRepositoryImpl;
         this.authorRepository = authorRepository;
@@ -100,13 +100,12 @@ public class NewsServiceImpl implements NewsService {
     }
 
     @Override
-    public NewsDTOResponse update(NewsDTORequest updateRequest) {
-        Long newsId = updateRequest.getId();
-        NewsModel news = newsRepository.readById(newsId)
+    public NewsDTOResponse update(Long id, NewsDTORequest updateRequest) {
+        NewsModel news = newsRepository.readById(id)
                 .orElseThrow(
                     () -> new NotFoundException(
                             String.format(
-                                    ENTITY_NOT_FOUND_MESSAGE.getContent(), entityName, newsId
+                                    ENTITY_NOT_FOUND_MESSAGE.getContent(), entityName, id
                             )
                         )
                     );
@@ -161,8 +160,6 @@ public class NewsServiceImpl implements NewsService {
         );
     }
 
-
-    @Override
     public List<NewsDTOResponse> readByQueryParams(NewsParamsRequest params) {
         List<NewsModel> newsModels = newsRepository.readByQueryParams(newsParamsMapper.dtoToModel(params));
         return mapper.modelListToDtoList(newsModels);

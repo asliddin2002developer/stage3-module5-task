@@ -1,9 +1,9 @@
 package com.mjc.school.controller.impl;
 
 import com.mjc.school.controller.BaseController;
-import com.mjc.school.service.CommentService;
 import com.mjc.school.service.dto.CommentDTORequest;
 import com.mjc.school.service.dto.CommentDTOResponse;
+import com.mjc.school.service.impl.CommentService;
 import com.mjc.school.service.view.View;
 import io.swagger.annotations.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -113,7 +113,7 @@ public class CommentController implements BaseController<CommentDTORequest, Comm
             @ApiParam(value = "JSON object that contains comment id you want to update and new content to update)")
             @RequestBody CommentDTORequest updateRequest)
     {
-        var commentDTOResponse = model.update(updateRequest);
+        var commentDTOResponse = model.update(id, updateRequest);
         view.display(commentDTOResponse);
         return new ResponseEntity<>(commentDTOResponse, HttpStatus.OK);
     }

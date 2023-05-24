@@ -1,10 +1,10 @@
 package com.mjc.school.controller.impl;
 
 import com.mjc.school.controller.BaseController;
-import com.mjc.school.service.NewsService;
 import com.mjc.school.service.dto.NewsDTORequest;
 import com.mjc.school.service.dto.NewsDTOResponse;
 import com.mjc.school.service.dto.NewsParamsRequest;
+import com.mjc.school.service.impl.NewsService;
 import com.mjc.school.service.view.View;
 import io.swagger.annotations.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -102,7 +102,7 @@ public class NewsController implements BaseController<NewsDTORequest, NewsDTORes
             @ApiParam(value = "JSON object that contains: id, title, content, authorId, tagIds(optional)")
             @RequestBody NewsDTORequest updateRequest)
     {
-        var newsDTOResponse = model.update(updateRequest);
+        var newsDTOResponse = model.update(id, updateRequest);
         view.display(newsDTOResponse);
         return new ResponseEntity<>(newsDTOResponse, HttpStatus.OK);
     }

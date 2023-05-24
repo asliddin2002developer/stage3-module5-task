@@ -18,5 +18,5 @@ public interface BaseRepository<T extends BaseEntity<K>, K> {
     boolean deleteById(K id);
 
     boolean existById(K id);
-    Optional<T> getReference(K id);
+    T getReference(K id);
 }

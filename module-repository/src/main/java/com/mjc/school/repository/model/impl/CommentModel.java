@@ -38,12 +38,13 @@ public class CommentModel implements BaseEntity<Long> {
     @Column(name = "Last_Update_Date")
     private LocalDateTime lastUpdateDate;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinTable(
-            name = "News_Comment",
-            joinColumns = {@JoinColumn(name = "Comment_Id")},
-            inverseJoinColumns = {@JoinColumn(name = "News_Id")}
-    )
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
+    @JoinColumn(name = "News_Id")
+//    @JoinTable(
+//            name = "News_Comment",
+//            joinColumns = {@JoinColumn(name = "Comment_Id")},
+//            inverseJoinColumns = {@JoinColumn(name = "News_Id")}
+//    )
     private NewsModel news;
 
     @Override

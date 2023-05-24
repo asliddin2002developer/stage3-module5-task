@@ -68,12 +68,12 @@ public abstract class AbstractDBRepository<T extends BaseEntity<K>, K> implement
 
     @Override
     public boolean deleteById(K id){
-        Optional<T> entityRef = getReference(id);
-        if (entityRef.isEmpty()){
+        T entityRef = getReference(id);
+        if (entityRef == null){
             return false;
         }
         entityManager.getTransaction().begin();
-        entityManager.remove(entityRef.get());
+        entityManager.remove(entityRef);
         entityManager.getTransaction().commit();
         return true;
     }
@@ -82,7 +82,7 @@ public abstract class AbstractDBRepository<T extends BaseEntity<K>, K> implement
         return entityManager.find(entityClass, id) != null;
     }
 
-    public Optional<T> getReference(K id){
-        return Optional.ofNullable(entityManager.getReference(this.entityClass, id));
+    public T getReference(K id){
+        return entityManager.getReference(this.entityClass, id);
     }
 }
