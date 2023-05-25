@@ -1,8 +1,8 @@
 package com.mjc.school.repository.impl;
 
 import com.mjc.school.repository.BaseRepository;
-import com.mjc.school.repository.model.BaseEntity;
 import com.mjc.school.repository.exception.EntityCreationConflictException;
+import com.mjc.school.repository.model.BaseEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.persistence.EntityManager;
