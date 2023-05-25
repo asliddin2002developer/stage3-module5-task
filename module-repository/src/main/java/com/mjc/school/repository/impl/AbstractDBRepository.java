@@ -2,13 +2,16 @@ package com.mjc.school.repository.impl;
 
 import com.mjc.school.repository.BaseRepository;
 import com.mjc.school.repository.model.BaseEntity;
+import com.mjc.school.repository.exception.EntityCreationConflictException;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
+import javax.persistence.PersistenceException;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
+import javax.validation.ConstraintViolationException;
 import java.lang.reflect.ParameterizedType;
 import java.util.List;
 import java.util.Optional;
@@ -51,9 +54,13 @@ public abstract class AbstractDBRepository<T extends BaseEntity<K>, K> implement
 
     @Override
     public T create(T createRequest){
-        entityManager.getTransaction().begin();
-        entityManager.persist(createRequest);
-        entityManager.getTransaction().commit();
+        try {
+            entityManager.getTransaction().begin();
+            entityManager.persist(createRequest);
+            entityManager.getTransaction().commit();
+        }catch (PersistenceException | ConstraintViolationException e){
+            throw new EntityCreationConflictException(e.getMessage());
+        }
         return createRequest;
     }
 

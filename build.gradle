@@ -21,8 +21,10 @@ subprojects {
     }
 
     dependencies {
-        implementation "org.springframework.boot:spring-boot-starter-web:$springBootStarterWebVersion"
+        implementation "org.springframework.boot:spring-boot-starter-web:$springBootPluginVersion"
         implementation "org.springframework.boot:spring-boot-starter-data-jpa:$springBootStarterDataJpaVersion"
+        implementation 'org.springframework.boot:spring-boot-starter-web:2.7.1'
+
         implementation "org.postgresql:postgresql:$postgresqlVersion"
         implementation "com.tngtech.archunit:archunit:$archunitVersion"
         implementation group: 'io.springfox', name: 'springfox-swagger2', version: "$springfoxVersion"
@@ -42,6 +44,7 @@ subprojects {
         testAnnotationProcessor "org.projectlombok:lombok:$lombokVersion"
 
         testImplementation "org.springframework.boot:spring-boot-starter-test:$springBootStarterDataJpaVersion"
+
 
 
 

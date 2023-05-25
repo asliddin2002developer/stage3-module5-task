@@ -4,17 +4,20 @@ import com.mjc.school.controller.BaseController;
 import com.mjc.school.service.dto.CommentDTORequest;
 import com.mjc.school.service.dto.CommentDTOResponse;
 import com.mjc.school.service.impl.CommentService;
-import com.mjc.school.service.view.View;
+import com.mjc.school.service.views.View;
 import io.swagger.annotations.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+import static com.mjc.school.controller.RestPathConst.COMMENTS_API_ROOT_PATH;
+
 @RestController
-@RequestMapping("/api/v1/comments")
+@RequestMapping(value = COMMENTS_API_ROOT_PATH, produces = MediaType.APPLICATION_JSON_VALUE)
 @Api(tags = "Comment CRUD | REST API")
 public class CommentController implements BaseController<CommentDTORequest, CommentDTOResponse, Long> {
 
@@ -69,9 +72,6 @@ public class CommentController implements BaseController<CommentDTORequest, Comm
             @PathVariable Long id)
     {
         var commentDTOResponse = this.model.readById(id);
-//        if (commentDTOResponse == null){
-//            return new ResponseEntity<>(commentDTOResponse, HttpStatus.NOT_FOUND);
-//        }
         view.display(commentDTOResponse);
         return new ResponseEntity<>(commentDTOResponse, HttpStatus.OK);
 

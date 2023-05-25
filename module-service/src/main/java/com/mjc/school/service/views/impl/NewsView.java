@@ -1,8 +1,8 @@
-package com.mjc.school.service.view.impl;
+package com.mjc.school.service.views.impl;
 
 
 import com.mjc.school.service.dto.NewsDTOResponse;
-import com.mjc.school.service.view.View;
+import com.mjc.school.service.views.View;
 import org.springframework.stereotype.Component;
 
 import java.util.List;

@@ -1,4 +1,4 @@
-package com.mjc.school.service.view;
+package com.mjc.school.service.views;
 import org.springframework.stereotype.Component;
 
 @Component

@@ -4,8 +4,10 @@ import com.mjc.school.controller.BaseController;
 import com.mjc.school.service.dto.AuthorDTORequest;
 import com.mjc.school.service.dto.AuthorDTOResponse;
 import com.mjc.school.service.impl.AuthorService;
-import com.mjc.school.service.view.View;
+import com.mjc.school.service.views.View;
 import io.swagger.annotations.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -13,13 +15,17 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+import static com.mjc.school.controller.RestPathConst.AUTHOR_API_ROOT_PATH;
+
 
 @RestController
-@RequestMapping("/api/v1/authors")
+@RequestMapping(value = AUTHOR_API_ROOT_PATH)
 @Api(tags = "Author CRUD | REST API", produces = "application/json")
 public class AuthorController implements BaseController<AuthorDTORequest, AuthorDTOResponse, Long> {
     private final AuthorService model;
     private final View<AuthorDTOResponse, List<AuthorDTOResponse>> view;
+
+    private Logger logger = LoggerFactory.getLogger(AuthorController.class);
 
     @Autowired
     public AuthorController(AuthorService model,
@@ -48,7 +54,8 @@ public class AuthorController implements BaseController<AuthorDTORequest, Author
 
     {
         var authorDTOResponses = model.readAll(page, size, sortBy);
-        view.displayAll(authorDTOResponses);
+//        view.displayAll(authorDTOResponses);
+        logger.info("Info");
         return new ResponseEntity<>(authorDTOResponses, HttpStatus.OK);
     }
 

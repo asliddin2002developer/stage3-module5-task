@@ -4,17 +4,20 @@ import com.mjc.school.controller.BaseController;
 import com.mjc.school.service.dto.TagDTORequest;
 import com.mjc.school.service.dto.TagDTOResponse;
 import com.mjc.school.service.impl.TagService;
-import com.mjc.school.service.view.View;
+import com.mjc.school.service.views.View;
 import io.swagger.annotations.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+import static com.mjc.school.controller.RestPathConst.TAG_API_ROOT_PATH;
+
 @RestController
-@RequestMapping("/api/v1/tags")
+@RequestMapping(value = TAG_API_ROOT_PATH, produces = MediaType.APPLICATION_JSON_VALUE)
 @Api(tags = "Tag Controller | REST API")
 public class TagController implements BaseController<TagDTORequest, TagDTOResponse, Long> {
 

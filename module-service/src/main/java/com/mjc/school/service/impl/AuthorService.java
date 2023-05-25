@@ -5,6 +5,7 @@ import com.mjc.school.repository.model.impl.AuthorModel;
 import com.mjc.school.service.BaseService;
 import com.mjc.school.service.dto.AuthorDTORequest;
 import com.mjc.school.service.dto.AuthorDTOResponse;
+import com.mjc.school.repository.exception.EntityCreationConflictException;
 import com.mjc.school.service.exception.NotFoundException;
 import com.mjc.school.service.mapper.AuthorMapper;
 import org.mapstruct.factory.Mappers;
@@ -55,7 +56,7 @@ public class AuthorService implements BaseService<AuthorDTORequest, AuthorDTORes
             AuthorModel model = mapper.dtoToModel(createRequest);
             var created = authorRepository.create(model);
             return mapper.modelToDto(created);
-        }catch (RuntimeException e){
+        }catch (EntityCreationConflictException e){
             throw e;
         }
 
