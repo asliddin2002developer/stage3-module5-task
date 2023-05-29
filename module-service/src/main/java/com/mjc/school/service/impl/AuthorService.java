@@ -56,8 +56,8 @@ public class AuthorService implements BaseService<AuthorDTORequest, AuthorDTORes
             AuthorModel model = mapper.dtoToModel(createRequest);
             var created = authorRepository.create(model);
             return mapper.modelToDto(created);
-        }catch (EntityCreationConflictException e){
-            throw e;
+        }catch (Exception e){
+            throw new EntityCreationConflictException(e.getMessage(), e.getCause());
         }
 
     }

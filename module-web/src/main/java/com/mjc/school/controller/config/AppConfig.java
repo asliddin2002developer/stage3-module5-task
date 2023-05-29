@@ -8,11 +8,11 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 
 @Configuration
-@ComponentScan(basePackages = {"com.mjc.school"})
+@ComponentScan(basePackages = "com.mjc.school")
 public class AppConfig {
 
     @Bean
-    public EntityManagerFactory entityManagerFactory() {
+    public EntityManagerFactory entityManagerFactory(){
         return Persistence.createEntityManagerFactory("NewsManagement");
     }
 }
