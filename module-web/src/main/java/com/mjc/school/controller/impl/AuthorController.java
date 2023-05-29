@@ -25,7 +25,8 @@ public class AuthorController implements BaseController<AuthorDTORequest, Author
     private final AuthorService model;
     private final View<AuthorDTOResponse, List<AuthorDTOResponse>> view;
 
-    private Logger logger = LoggerFactory.getLogger(AuthorController.class);
+    private static final Logger logger = LoggerFactory.getLogger(AuthorController.class);
+
 
     @Autowired
     public AuthorController(AuthorService model,
@@ -54,8 +55,8 @@ public class AuthorController implements BaseController<AuthorDTORequest, Author
 
     {
         var authorDTOResponses = model.readAll(page, size, sortBy);
-//        view.displayAll(authorDTOResponses);
-        logger.info("Info");
+        view.displayAll(authorDTOResponses);
+        logger.info("Success");
         return new ResponseEntity<>(authorDTOResponses, HttpStatus.OK);
     }
 

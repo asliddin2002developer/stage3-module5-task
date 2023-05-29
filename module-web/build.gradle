@@ -14,7 +14,6 @@ dependencies {
     implementation "javax.xml.bind:jaxb-api:$jaxbApiVersion"
     testImplementation platform("org.junit:junit-bom:$junitBomVersion")
     testImplementation 'org.junit.jupiter:junit-jupiter'
-    testImplementation 'org.testng:testng:7.1.0'
 
 
 

@@ -17,6 +17,8 @@ dependencies {
     annotationProcessor "org.mapstruct:mapstruct-processor:$mapstructVersion"
 
     implementation 'com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.15.1'
+    implementation 'org.springframework:spring-context:6.0.9'
+
 }
 
 test {
