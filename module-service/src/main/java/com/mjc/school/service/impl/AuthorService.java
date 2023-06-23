@@ -105,8 +105,10 @@ public class AuthorService implements BaseService<AuthorDTORequest, AuthorDTORes
 
 
     public AuthorDTOResponse readByNewsId(Long id) {
-        Optional<AuthorModel> authorModel = authorRepository.readByNewsId(id);
-        return mapper.modelToDto(authorModel.get());
+        AuthorModel authorModel = authorRepository.readByNewsId(id)
+                .orElseThrow(() -> new NotFoundException(
+                        String.format(ENTITY_NOT_FOUND_MESSAGE.getContent(), entityName, id)));
+        return mapper.modelToDto(authorModel);
 
     }
 }
