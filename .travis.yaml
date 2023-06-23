@@ -3,13 +3,13 @@ sudo: false
 install: true
 addons:
   sonarcloud:
-    organization: "you_organization_key"
+    organization: "asldev"
     token:
       secure: "$SONAR_TOKEN"
 jdk:
   - oraclejdk17
 script:
-  - mvn clean org.jacoco:jacoco-maven-plugin:prepare-agent package sonar:sonar
+  - ./gradlew sonarqube
 cache:
   directories:
     - '$HOME/.m2/repository'
