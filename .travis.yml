@@ -5,11 +5,11 @@ addons:
   sonarcloud:
     organization: "asldev"
     token:
-      secure: "$SONAR_TOKEN"
+      secure: "6b2032642cbb1356ca512591dc0e391f6cfbad4f"
 jdk:
   - oraclejdk17
 script:
-  - ./gradlew sonarqube
+  - ./gradlew sonar
 cache:
   directories:
     - '$HOME/.m2/repository'
