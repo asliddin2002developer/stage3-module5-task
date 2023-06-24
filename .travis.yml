@@ -1,16 +1,9 @@
-language: java
-sudo: false
-install: true
+dist: trusty
+
 addons:
   sonarcloud:
-    organization: "asldev"
-    token:
-      secure: "6b2032642cbb1356ca512591dc0e391f6cfbad4f"
-jdk:
-  - oraclejdk17
+    organization: "asldev" # To find your organization, go to: https://sonarcloud.io/account/organizations
+
 script:
-  - ./gradlew sonar
-cache:
-  directories:
-    - '$HOME/.m2/repository'
-    - '$HOME/.sonar/cache'
+  # Put before sonar-scanner your other script steps
+  - sonar-scanner -Dsonar.verbose=true -X
